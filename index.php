@@ -5,11 +5,11 @@
 
 
 	<?php $args = array(
-						'posts_per_page' => 1,
+						'posts_per_page' => 10,
 						'order' => 'DEC',
 					); ?>
 	<?php $query = new WP_Query( $args );?>
-
+	
 	<?php if( $query->have_posts() ) : ?>		
 		<?php while( $query->have_posts() ) : $query->the_post(); ?>
 
@@ -21,14 +21,18 @@
 			
      	
         <span class="author-name">
-			<a href="#">
+
+			<a href="<?php echo get_author_posts_url( get_the_author_meta( 'ID' )); ?> ">
 				<?php echo get_the_author_meta('display_name'); ?>
 			</a>
 				
 		</span>
 
 		<span class="date">	
-					<a href="#">
+					<?php $year = get_the_time('Y'); ?>
+					<?php $month = get_the_time('m'); ?>
+					<?php $day = get_the_time('d'); ?>
+					<a href="<?php echo get_day_link($year, $month, $day ); ?>">
 						<?php echo get_the_date(); ?>
 					</a>
 	
@@ -40,7 +44,7 @@
 						if( get_the_tags() > 0){
 							$tags = get_the_tags();
 								foreach($tags as $tag ) {
-									echo "<a href=".'google.com'.">";
+									echo "<a href=".get_tag_link($tag).">";
 									echo $tag->name;
 									echo " , </a>";
 							}
